@@ -21,7 +21,7 @@ jobs:
               git config --global user.name "Hitsuki"
               git config --global user.email "secrets.EMAILGIT"
               mkdir tmp && cd tmp
-              git clone 'https://github.com/Treble-Experience/Bot3-Hitsuki' bobot
+              git clone 'https://github.com/Project-WKF/Bot3-Workflow' bobot
 
        - name: Setup Erfan
          continue-on-error: true
@@ -76,9 +76,9 @@ jobs:
          run: |
               cd tmp/bobot
               date=`date +%Y%m%d%h%m`
-              echo "1" >> push.txt
+              echo "$date - i'm in a infernal loop" >> push.txt
               git add .
-              git commit -m "[ $Date ] - loop workflow"
+              git commit -m "[ $date ] - loop workflow"
               
        - name: Reruns
          continue-on-error: true
