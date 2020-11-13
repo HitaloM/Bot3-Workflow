@@ -38,28 +38,15 @@ jobs:
          run: |
               sudo apt-get update && apt-get upgrade -y
 
-       - name: Installing Python 3.9.0
-         continue-on-error: true
-         timeout-minutes: 100
-         run: |
-              wget https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tar.xz
-              tar -xf Python-3.9.0.tar.xz
-              cd Python-3.9.0 && ./configure && sudo make altinstall
-
        - name: Setting ccache
          run: |
               mkdir -p $HOME/.ccache/
               echo 'compiler_check = none' >> $HOME/.ccache/ccache.conf
               echo "stats = false" >> $HOME/.ccache/ccache.conf
-              echo 'max_size = 20G' >> $HOME/.ccache/ccache.conf
+              echo 'max_size = 10G' >> $HOME/.ccache/ccache.conf
               echo "base_dir = $HOME" >> $HOME/.ccache/ccache.conf
               echo "cache_dir = $HOME/cache" >> $HOME/.ccache/ccache.conf
               echo "hash_dir = false" >> $HOME/.ccache/ccache.conf
-
-       - name: Installing rclone
-         run: |
-              sudo apt-get install -y ccache
-              curl https://rclone.org/install.sh | sudo bash -s beta
 
        - name: Setup Yukosky Merger
          continue-on-error: true
@@ -70,8 +57,17 @@ jobs:
        - name: Freeing up memory
          run: |
               sudo rm -rf /usr/share/dotnet/
-              sudo swapoff -av
-              sudo rm -f /swapfile
+              sudo rm -rf "/usr/local/share/boost"
+              sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+              sudo apt-get remove -y '^ghc-8.*' '^dotnet-.*' '^llvm-.*' 'php.*' azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell mono-devel account-plugin-facebook account-plugin-flickr account-plugin-jabber account-plugin-salut account-plugin-twitter account-plugin-windows-live account-plugin-yahoo aisleriot brltty duplicity empathy empathy-common example-content gnome-accessibility-themes gnome-contacts gnome-mahjongg gnome-mines gnome-orca gnome-screensaver gnome-sudoku gnome-video-effects gnomine landscape-common libreoffice-avmedia-backend-gstreamer libreoffice-base-core libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gnome libreoffice-gtk libreoffice-impress libreoffice-math libreoffice-ogltrans libreoffice-pdfimport libreoffice-style-galaxy libreoffice-style-human libreoffice-writer libsane libsane-common mcp-account-manager-uoa python3-uno rhythmbox rhythmbox-plugins rhythmbox-plugin-zeitgeist sane-utils shotwell shotwell-common telepathy-gabble telepathy-haze telepathy-idle telepathy-indicator telepathy-logger telepathy-mission-control-5 telepathy-salut totem totem-common totem-plugins printer-driver-brlaser printer-driver-foo2zjs printer-driver-foo2zjs-common printer-driver-m2300w printer-driver-ptouch printer-driver-splix
+              sudo apt-get auto-remove -y
+              sudo apt-get clean
+
+       - name: Installing apt-fast
+         run: |
+              sudo add-apt-repository ppa:apt-fast/stable
+              sudo apt-get update
+              sudo apt-get -y install apt-fast
 
        - name: Setup Bot3
          continue-on-error: true
