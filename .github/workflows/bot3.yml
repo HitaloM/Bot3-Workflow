@@ -29,7 +29,7 @@ jobs:
          continue-on-error: true
          timeout-minutes: 10
          run: |
-              git clone --recurse-submodules https://github.com/Treble-Experience/ErfanGSIs-Hitsuki ErfanGSIs
+              git clone --recurse-submodules https://github.com/HitaloSama/ErfanGSIs-Hitsuki ErfanGSIs
               cd Erf*; sudo bash setup.sh
 
        - name: Updating packages
@@ -48,32 +48,20 @@ jobs:
               echo "cache_dir = $HOME/cache" >> $HOME/.ccache/ccache.conf
               echo "hash_dir = false" >> $HOME/.ccache/ccache.conf
 
-       - name: Setup Yukosky Merger
-         continue-on-error: true
-         timeout-minutes: 10
-         run: |
-              git clone --recurse-submodules https://github.com/Treble-Experience/S_EXT-P-Merger Merger
-
        - name: Freeing up memory
          run: |
               docker rmi `docker images -q`
               sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php
               sudo apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
               sudo apt-get -y autoremove --purge
-              sudo apt-get clean 
-
-       - name: Installing apt-fast
-         run: |
-              sudo add-apt-repository ppa:apt-fast/stable
-              sudo apt-get update
-              sudo apt-get -y install apt-fast
+              sudo apt-get clean
 
        - name: Setup Bot3
          continue-on-error: true
          timeout-minutes: 10
          run: |
-              git clone https://${{ secrets.USERNAME }}":${{ secrets.GITTOKEN }}"@github.com/Project-WKF/Bot3-Jar bobot
-              mv bobot/*.jar .; rm -rf bobot
+              wget http://repo.hitcloud.workers.dev/0:down/BoboBot-1-all.jar
+              mv *.jar .
               mv *.jar BoboBot.jar
 
        - name: Run Bot3 in first time
@@ -90,12 +78,12 @@ jobs:
               cd configs
               touch config.prop
               echo "bot-token=${{ secrets.TOKEN }}" >> "config.prop"
-              echo "bot-username=HitaloSama" >> "config.prop"
+              echo "bot-username=Hitalo" >> "config.prop"
               echo "bot-master=918317361" >> "config.prop"
               echo "bot-sf-pass=${{ secrets.PASSWORD }}" >> sf-creds.config
-              echo "bot-sf-proj=trebleexperience" >> sf-creds.config
+              echo "bot-sf-proj=erfangsis-hitsuki" >> sf-creds.config
               echo "bot-sf-user=hitalokun" >> sf-creds.config
-              echo "bot-announcement-id=-1001179583442" >> sf-creds.config
+              echo "bot-announcement-id=-1001301634008" >> sf-creds.config
               echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.config
               echo "bot-send-announcement=true" >> sf-creds.config
              
