@@ -23,7 +23,7 @@ jobs:
               git config --global user.name "Hitsuki"
               git config --global user.email "secrets.EMAILGIT"
               mkdir tmp && cd tmp
-              git clone 'https://github.com/Project-WKF/Bot3-Workflow' bobot
+              git clone 'https://github.com/HitaloSama/Bot3-Workflow' bobot
 
        - name: Setup Erfan GSIs Tool
          continue-on-error: true
@@ -38,16 +38,6 @@ jobs:
          run: |
               sudo apt-get update && apt-get upgrade -y
 
-       - name: Setting ccache
-         run: |
-              mkdir -p $HOME/.ccache/
-              echo 'compiler_check = none' >> $HOME/.ccache/ccache.conf
-              echo "stats = false" >> $HOME/.ccache/ccache.conf
-              echo 'max_size = 10G' >> $HOME/.ccache/ccache.conf
-              echo "base_dir = $HOME" >> $HOME/.ccache/ccache.conf
-              echo "cache_dir = $HOME/cache" >> $HOME/.ccache/ccache.conf
-              echo "hash_dir = false" >> $HOME/.ccache/ccache.conf
-
        - name: Freeing up memory
          run: |
               docker rmi `docker images -q`
@@ -61,8 +51,7 @@ jobs:
          timeout-minutes: 10
          run: |
               wget http://repo.hitcloud.workers.dev/0:down/BoboBot-1-all.jar
-              mv *.jar .
-              mv *.jar BoboBot.jar
+              mv BoboBot-1-all.jar BoboBot.jar
 
        - name: Run Bot3 in first time
          continue-on-error: true
